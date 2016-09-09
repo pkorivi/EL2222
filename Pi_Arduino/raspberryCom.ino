@@ -1,4 +1,5 @@
-//Assuming that command format is ' cmd : sub_cmd value '
+//Assuming that command format is ' cmd : sub_cmd value ' or ' cmd : sub_cmd '
+//Read the serial data received from the Rpi and parse it for various commands
 void readSerialCmd(){
   String inCmd = "";
   String inValue = "";
@@ -43,6 +44,7 @@ void readSerialCmd(){
   }
 }
 
+// Interpet the meaning of the commands received previously and respond accordingly.
 void interpretSerialCmd(String cmd,String subCmd, int* values)
 {
 

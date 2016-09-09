@@ -1,4 +1,5 @@
 const double MICRO_PER_SEC = 1000000.0;
+//Motor Class with different paramters for configuring the connections
 class Motor{
 private:
   bool INVERSE;
@@ -16,9 +17,10 @@ public:
   void rotate(double ref, int direction);
   double get_angular_vel();
   void tic_counter();
-  void pid_controler(double ref);
+  void pid_controller(double ref);
 };
 
+//Initialize the motor parameters
 Motor::Motor(byte enc_pin, byte out1, byte out2, byte enb, bool inverse,
   double Kp, double Kd, double Ki){
   this->ENCODER_PIN = enc_pin;
@@ -36,21 +38,23 @@ Motor::Motor(byte enc_pin, byte out1, byte out2, byte enb, bool inverse,
   pinMode(enb, OUTPUT);
 }
 
+//function to calculate angular velocity
 void Motor::calc_angular_vel(){
 }
-
+//function to rotate the motor, parameters: reference velocity and direction of motor
 void Motor::rotate(double ref, int direction){
  
 }
 
-void Motor::pid_controler(double ref){
+//control algorithm to maintain the speed
+void Motor::pid_controller(double ref){
   
 }
-
+//function to read the current angular velocity of motors
 double Motor::get_angular_vel(){
 
 }
-
+//function to increment the tics for each motor.
 void Motor::tic_counter(){
   
 }
