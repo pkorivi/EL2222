@@ -1,0 +1,88 @@
+//Assuming that command format is ' cmd : sub_cmd value '
+void readSerialCmd(){
+  String inCmd = "";
+  String inValue = "";
+  String inSubCmd = "";
+  bool subCmdPresent = false;
+  short int valueCount = 0;
+  int values[5];
+  values[0]=22;
+  while(Serial.available() > 0){
+    int inChar = Serial.read();
+    if (isDigit(inChar)){
+      inValue += (char)inChar;
+    }
+    else if(isSpace(inChar) || inChar == '\n'){
+      // Ignore for now
+    }
+    else if( inChar == ':' ){
+      subCmdPresent = true;
+    }
+    else if( inChar == ',' ){
+      if (inValue != ""){
+        values[valueCount] = inValue.toInt();
+      }
+      inValue = "";
+      valueCount++;
+    }
+    else if(isAscii(inChar)){
+      if(subCmdPresent){
+        inSubCmd += (char)inChar;
+      }
+      else{
+        inCmd += (char)inChar;
+      }
+    }
+
+    if (inChar == '\n'){
+      if (inValue != ""){
+        values[valueCount] = inValue.toInt();
+      }
+      interpretSerialCmd(inCmd,inSubCmd,&values[0]);
+    }
+  }
+}
+
+void interpretSerialCmd(String cmd,String subCmd, int* values)
+{
+
+  if ( (String)"Hi.Arduino" == cmd ){
+    Serial.println("Hi.Raspberry");
+  } 
+  else if ((String)"set.value" == cmd){
+    if ((String)"lin_vel" == subCmd){
+        //Implement function to set Linear velocity
+        //Set values are passed back for debug
+        Serial.println(values[0]);
+    }
+    else if ((String)"ang_vel" == subCmd){
+        //Implement function to set angular velocity
+        //Set values are passed back for debug
+        Serial.println(values[0]);
+    }
+    else{
+        Serial.println("!!! error !!!!");
+    }
+  }
+  
+  else if ((String)"get.value" == cmd){
+    if ((String)"pose_x" == subCmd){
+        //Implement function to transmit x of current position
+        Serial.println("x");
+    }
+    else if ((String)"pose_y" == subCmd){
+        //Implement function to transmit y of current position
+        Serial.println("y");
+    }
+    else if ((String)"pose_angle" == subCmd){
+        //Implement function to transmit angle of current position
+        Serial.println("Pose_Angle");
+    }
+    else{
+        Serial.println("!!! error !!!!");
+    }
+  }
+  else{
+    Serial.println("Cmd_Error");
+  }
+}
